@@ -97,15 +97,15 @@ class TestApp:
     def test_baked_goods_by_price_returns_list_of_baked_goods_in_descending_order(self):
         '''returns JSON representing one models.Bakery object.'''
         with app.app_context():
-            prices = [baked_good.price for baked_good in BakedGood.query.all()]
-            highest_price = max(prices)
-
-            b1 = BakedGood(name="Madeleine", price=highest_price + 1)
+        
+            b1 = BakedGood(name="Cake", price=20)
             db.session.add(b1)
-            db.session.commit()
-            b2 = BakedGood(name="Donut", price=highest_price - 1)
+            b2 = BakedGood(name="Cookie", price=15)
             db.session.add(b2)
             db.session.commit()
+
+            prices = [baked_good.price for baked_good in BakedGood.query.all()]
+            highest_price = max(prices)
 
             response = app.test_client().get('/baked_goods/by_price')
             data = json.loads(response.data.decode())
